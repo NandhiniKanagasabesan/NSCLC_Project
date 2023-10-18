@@ -1,7 +1,7 @@
 ####################################################
-
+# Showing an example of analysing a single FCS file, a similar approach was used for all sample
 # CytoTree analysis for sample 23 #
-# No. oof cell counts : 50699 #
+# No. Of cell counts: 50699 #
 
 ####################################################
 
@@ -80,7 +80,7 @@ cyt = runUMAP(cyt)
 
 
 ## 4. Visualization ## 
-# Visulaize the distribution of cells in a 2D UMAP plot
+# Visulaize the distribution of cells based on their marker expression in a 2D UMAP plot
 
 # Plot 2D UMAP, and cells are colored by cluster ID
 plot2D(cyt_23, item.use = c("UMAP_1", "UMAP_2"), color.by = "cluster.id",show.cluser.id = TRUE,
@@ -169,9 +169,6 @@ plot2D(cyt, item.use = c("UMAP_1", "UMAP_2"), color.by = "CD19/CD20",
 # Plot heatmap of clusters
 plotClusterHeatmap(cyt)
 
-
-## Do I split this in another script ??? 
-
 ## 5.Building trajectory ## 
 # Build tree using expression matrix and UMAP
 cyt = buildTree(cyt, dim.type = "umap", dim.use = 1:2)
@@ -251,7 +248,8 @@ plotTree(cyt, color.by = "CD19/CD20", show.node.name = T, cex.size = 1) +
   scale_colour_gradientn(colors = col_fun(seq(min(cluster_cyt[,"CD19/CD20"]),max(cluster_cyt[,"CD19/CD20"]),by=0.01)))
 
 ## 7. Optimization ##
-# Run differential expression analysis for markers in clusters (source code modified to find the differentially expressed markers in clusters
+# Run differential expression analysis for markers in clusters (source code modified to find the differentially expressed markers in clusters.
+# For the modified code refer ""
 # rather than using branch.id)
 diff.cyt = runDiff(cyt)
 
