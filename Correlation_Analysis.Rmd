@@ -1,11 +1,17 @@
 ---
-title: "Untitled"
+title: "Spearman's Correlation Analysis"
 author: "Nandhini"
 date: "10/18/2023"
 output: html_document
 ---
+Showing the correlation analysis of early-stage patients, Similar approach was used for Lung tissue and Late-stage patients
+- Correlation between Immune infiltrates and Immune infiltrates in tumour
+- Correlation between Immune infiltrate and T-cell functionality 
+- Correlation between Immune infiltrates and T-cell differentiation subsets 
 
 ```{r setup, include=FALSE}
+
+# importing libraries #
 knitr::opts_chunk$set(echo = TRUE)
 library(dplyr)
 library(ggplot2)
@@ -13,11 +19,13 @@ library(readxl)
 library(Hmisc)
 library(tidyr)
 library(RColorBrewer)
+
+# Set WD #
 knitr::opts_knit$set("~/Documents/Sanquin/Suzanne/CytoTree/")
 ```
 
-1) Data input
-```{r echo = F,message=F}
+1) Input the data table with percentages of immune infiltrates 
+```{r Data Input}
 
 #loading early-stage patients
 early_data = read_excel("~/Documents/Sanquin/Suzanne/CytoTree/NSCLC_Early_and_late_percentages(04-08-2023).xlsx")
@@ -26,7 +34,7 @@ early_data = as.data.frame(early_data)
 ```
 
 2) Correlation for Early-stage patients
-```{r}
+```{r Correlation Analysis}
 
 ### heatmap ## 
 ## Spearman's Correlation 
