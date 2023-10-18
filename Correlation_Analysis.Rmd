@@ -1,0 +1,203 @@
+---
+title: "Untitled"
+author: "Nandhini"
+date: "10/18/2023"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(dplyr)
+library(ggplot2)
+library(readxl)
+library(ggpubr)
+library(ggcorrplot)
+library(psych)
+library(Hmisc)
+library(tidyr)
+library(corrr)
+library(purrr)
+library(reshape2)
+library(ggplot2)
+library("RColorBrewer")
+library(wesanderson)
+knitr::opts_knit$set("~/Documents/Sanquin/Suzanne/CytoTree/")
+```
+
+1) Data input
+```{r echo = F,message=F}
+
+#loading early-stage patients
+early_data = read_excel("~/Documents/Sanquin/Suzanne/CytoTree/NSCLC_Early_and_late_percentages(04-08-2023).xlsx")
+early_data = as.data.frame(early_data)
+
+```
+
+2) Correlation for Early-stage patients
+```{r}
+
+### heatmap ## 
+## Spearman's Correlation 
+rownames(early_data) = early_data$Patients
+early_data = early_data[,-1]
+early_data = as.matrix(early_data)
+early_data = apply(early_data, 2, as.numeric) ## make sure they are numeric
+early_corr = rcorr(early_data, type = "spearman")
+
+
+## A function for heatmap
+## converting p,n, r values of correlation results into dataframes
+##  correlation coeeficients
+data.frame(early_corr$r) %>% head() %>% knitr::kable() ## use library(knitr for kable())
+##  p values; significanes
+data.frame(early_corr$p) %>% head(n=5) %>% knitr::kable()
+## n ; number of patients
+data.frame(early_corr$n) %>% head(n=3) %>% knitr::kable()
+
+## function to convert r,p and n  values as list to dataframes
+cors = function(df) { 
+   # turn all three matrices (r, n, and P into a data frame)
+   M = Hmisc::rcorr(as.matrix(df), type = "spearman")
+   # return the three data frames in a list return(Mdf)
+   Mdf = map(M, ~data.frame(.x))
+}
+
+# Implementing the cors function
+cors(early_data) %>%
+ map(~rownames_to_column(.x, var="measure1")) %>%
+ # format each data set (r,P,n) long 
+ map(~pivot_longer(.x, -measure1, "measure2")) %>%
+ # merge our three list elements by binding the rows
+ bind_rows(.id = "id") %>%
+ pivot_wider(names_from = id, values_from = value) %>%
+ mutate(sig_p = ifelse(P < .05, T, F), p_if_sig = ifelse(P <.05, P, NA), r_if_sig = ifelse(r <.05, r, NA)) %>% 
+ head() %>%
+ knitr::kable()
+
+formatted_cors <- function(df){
+ cors(df) %>%
+ map(~rownames_to_column(.x, var="measure1")) %>%
+ map(~pivot_longer(.x, -measure1, "measure2")) %>% 
+ bind_rows(.id = "id") %>%
+ pivot_wider(names_from = id, values_from = value) %>%
+ mutate(sig_p = ifelse(P < .05, T, F), p_if_sig = ifelse(P <.05, P, NA), r_if_sig = ifelse(P <.05, r, NA)) 
+}
+
+formatted_cors(early_data) %>% head() %>% knitr::kable()
+
+##applying the cor function to early-stage patients data
+early_cor_df = formatted_cors(early_data)
+
+##saving the correlation results
+write.csv(early_cor_df, "~/Documents/Sanquin/Suzanne/CytoTree/NSCLC_early_correlation_plots/NSCLC_correlation_early(08-08-2023).csv")
+
+
+```
+
+## 3) Visualization
+```{r}
+
+
+# makingg pretty heatmaps
+# Correlation between Immune cells vs Immune cells
+
+# filtered heatmaps
+early_cor_im_df = 
+   early_cor_df %>% 
+  filter(
+    measure1 %in% c("CD8 T","Tconv","Tregs","B cells","Neutrophils","Monocytes","DCs","NKT","NK"),
+    measure2 %in% c("CD8 T","Tconv","Tregs","B cells","Neutrophils","Monocytes","DCs","NKT","NK"))
+
+# adding significance values 
+early_cor_im_df$sig_symbol = ifelse(early_cor_im_df$p_if_sig <= 0.0005, "***",
+                            ifelse(early_cor_im_df$p_if_sig <= 0.005, "**",
+                            ifelse(early_cor_im_df$p_if_sig <= 0.05, "*", NA)))
+
+# reorder the levels
+early_cor_im_df$measure1 = as.factor(early_cor_im_df$measure1)
+early_cor_im_df$measure1 = factor(early_cor_im_df$measure1, levels = c("CD8 T","Tconv","Tregs","B cells","NK","NKT","Neutrophils","Monocytes","DCs"))
+
+early_cor_im_df$measure2 = as.factor(early_cor_im_df$measure2)
+early_cor_im_df$measure2 = factor(early_cor_im_df$measure2, levels = c("DCs","Monocytes","Neutrophils","NKT","NK","B cells","Tregs","Tconv","CD8 T"))
+
+## replacing 1s in the diagonal by NA 
+early_cor_im_df[early_cor_im_df == 1] = NA
+
+## Heatmaps; Immune cells vs Immune cells
+ggplot(data = early_cor_im_df, aes(x = measure1, y = measure2, fill = r)) +
+  geom_raster(data = early_cor_im_df, aes(x = measure1, y = measure2, fill = r)) +
+  geom_tile(color = "white")+
+  geom_text(data = early_cor_im_df, aes(x = measure1, y = measure2, label = round(r, digits=2))) +
+  geom_text(data = early_cor_im_df, aes(x = measure1, y = measure2, label = sig_symbol),
+            nudge_y = 0.25, nudge_x = 0.25, size = 5) +
+  scale_fill_gradient2(mid="#ffffff",low="#053061",high="#67001f", limits=c(-0.6,0.6)) +
+    theme(panel.background = element_blank(),axis.text.x = element_text(angle = 60, hjust=1))+
+  labs(x = NULL, y = NULL, fill = "Spearman's\nCorrelation", title="Immune cells vs Immune cells")
+
+
+## Correlation between Immune cells vs T cell functionality 
+## filter Immune cells and T cell functionality
+early_cor_fun_df =
+  early_cor_df %>%
+  filter(
+    measure2 %in% c ("%CD137_CD4", "%CD137_CD8","%Cytokines_CD4","%Cytokines_CD8"),
+    measure1 %in% c("CD8 T","Tconv","Tregs","B cells","Neutrophils","Monocytes","DCs","NKT","NK"))
+
+## adding significance values
+early_cor_fun_df$sig_symbol = ifelse(early_cor_fun_df$p_if_sig <= 0.0005, "***",
+                            ifelse(early_cor_fun_df$p_if_sig <= 0.005, "**",
+                            ifelse(early_cor_fun_df$p_if_sig <= 0.05, "*", NA)))
+
+# # reorder the levels
+early_cor_fun_df$measure1 = as.factor(early_cor_fun_df$measure1)
+early_cor_fun_df$measure1 = factor(early_cor_fun_df$measure1, levels = c("DCs","Monocytes","Neutrophils","NKT","NK","B cells","Tregs","Tconv","CD8 T"))
+
+early_cor_fun_df$measure2 = as.factor(early_cor_fun_df$measure2)
+early_cor_fun_df$measure2 <- factor(early_cor_fun_df$measure2, levels = c("%CD137_CD4","%CD137_CD8","%Cytokines_CD4","%Cytokines_CD8"))
+
+## Heatmaps; Immune cells vs T cell functionality
+ggplot(data = early_cor_fun_df, aes(x = measure2, y = measure1, fill = r)) +
+  geom_raster(data = early_cor_fun_df, aes(x = measure2, y = measure1, fill = r)) +
+  geom_tile(color='white') +
+  geom_text(data = early_cor_fun_df, aes(x = measure2, y = measure1, label = round(r, digits=2),size = 2)) +
+  geom_text(data = early_cor_fun_df, aes(x = measure2, y = measure1, label = sig_symbol),
+            nudge_y = 0.25, nudge_x = 0.25, size = 4.5) +
+  scale_fill_gradient2(mid="#ffffff",low="#053061",high="#67001f", limits=c(-0.6,0.6)) +
+    theme(panel.background = element_blank(),axis.text.x = element_text(angle = 60, hjust=1))+
+  labs(x = NULL, y = NULL, fill = "Spearman's\nCorrelation", title="Immune cells vs T cell functionality")
+
+
+## Correlation between Immune cells vs T cell differentiation subsets
+## filter Immune cells and T cell functionality
+early_cor_dif_df = 
+   early_cor %>% 
+  filter(
+    measure2 %in% c("CD8 T","Tconv","Tregs","B cells","Neutrophils","Monocytes","DCs","NKT","NK"),
+    measure1 %in% c("CD8_TCM","CD8_TEM","CD8_TEMRA","CD8_TN",
+                    "CD4_TCM","CD4_TEM","CD4_TEMRA","CD4_TN",
+                    "Tregs_TCM","Tregs_TEM","Tregs_TEMRA","Tregs_TN"))
+
+## adding significance values 
+early_cor_dif_df$sig_symbol = ifelse(early_cor_dif_df$p_if_sig <= 0.0005, "***",
+                            ifelse(early_cor_dif_df$p_if_sig <= 0.005, "**",
+                            ifelse(early_cor_dif_df$p_if_sig <= 0.05, "*", NA)))
+
+
+# # reorder the levels
+early_cor_dif_df$measure2 = as.factor(early_cor_dif_df$measure2)
+early_cor_dif_df$measure2 <- factor(early_cor_dif_df$measure2, levels = c("DCs","Monocytes","Neutrophils","NKT","NK","B cells","Tregs","Tconv","CD8 T"))
+
+## Heatmaps; Immune cells vs T cell functionality
+ggplot(data = early_cor_dif_df, aes(x = measure1, y = measure2, fill = r)) +
+  geom_raster(data = early_cor_dif_df, aes(x = measure1, y = measure2, fill = r)) +
+  geom_tile(color='white') +
+  geom_text(data = early_cor_dif_df, aes(x = measure1, y = measure2, label = round(r, digits=2))) +
+  geom_text(data = early_cor_dif_df, aes(x = measure1, y = measure2, label = sig_symbol),
+            nudge_y = 0.25, nudge_x = 0.25, size = 4.5) +
+  scale_fill_gradient2(mid="#ffffff",low="#053061",high="#67001f", limits=c(-0.65,0.65)) +
+    theme(panel.background = element_blank(),axis.text.x = element_text(angle = 60, hjust=1))+
+  labs(x = NULL, y = NULL, fill = "Spearman's\nCorrelation", title="Immune cells vs T cell functionality")
+
+
+```
+
