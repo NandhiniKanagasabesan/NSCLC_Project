@@ -27,7 +27,7 @@ fcs = runExprsExtract(fcs_file, comp = FALSE, transformMethod = "none")
 rownames(fcs) = gsub("CLEAN_Mix 4_Tumor_NSCLC_with_comp_median_", "", rownames(fcs), fixed=TRUE)
 
 # Refine colnames of fcs data
-# Note: delete or omit the columns that wont be used 
+# Note: delete or omit the columns that will not be used 
 recol = c(`FSC-A<NA>` = "FSC-A",
           `SSC-A<NA>` = "SSC-A",
           `FJComp-APC-A<NA>` = "CD68",
@@ -96,72 +96,62 @@ col_fun = colorRamp2(c(-3, -1.5, 0, 1.5, 3), c("#053061","#579EC9","#FFFFFF","#D
 #extracting the expression matrix from CYT object for plotting
 cyt_exp = cyt@raw.data 
 
-# Plot 2D UMAP, and cells are colored by FSC-A expression 
-plot2D(cyt, item.use = c("UMAP_1", "UMAP_2"), color.by = "FSC-A",
-       alpha = 1, main = "NSCLC:FSC-A", category = "numeric") +
-  scale_colour_gradientn(colors = col_fun(seq(min(cyt_exp[,"FSC-A"]),max(cyt_exp[,"FSC-A"]),by=0.01)))
-
-# Plot 2D UMAP, and cells are colored by SSC-A expression 
-plot2D(cyt, item.use = c("UMAP_1", "UMAP_2"), color.by = "SSC-A",
-       alpha = 1, main = "NSCLC:SSC-A", category = "numeric") +
-  scale_colour_gradientn(colors = col_fun(seq(min(cyt_exp[,"SSC-A"]),max(cyt_exp[,"SSC-A"]),by=0.01)))
-
-# Plot 2D UMAP, and cells are colored by CD68 expression 
+# Plot 2D UMAP, and cells are colored according to CD68 expression 
 plot2D(cyt, item.use = c("UMAP_1", "UMAP_2"), color.by = "CD68",
        alpha = 1, main = "NSCLC:CD68", category = "numeric") +
   scale_colour_gradientn(colors = col_fun(seq(min(cyt_exp[,"CD68"]),max(cyt_exp[,"CD68"]),by=0.01)))
                          
-# Plot 2D UMAP, and cells are colored by CD33 expression 
+# Plot 2D UMAP, and cells are colored according to CD33 expression 
 plot2D(cyt, item.use = c("UMAP_1", "UMAP_2"), color.by = "CD33",
        alpha = 1, main = "NSCLC:CD33", category = "numeric") +
   scale_colour_gradientn(colors = col_fun(seq(min(cyt_exp[,"CD33"]),max(cyt_exp[,"CD33"]),by=0.01)))
 
-# Plot 2D UMAP, and cells are colored by CD11b expression 
+# Plot 2D UMAP, and cells are colored according to CD11b expression 
 plot2D(cyt, item.use = c("UMAP_1", "UMAP_2"), color.by = "CD11b",
        alpha = 1, main = "NSCLC:CD11b", category = "numeric") +
   scale_colour_gradientn(colors = col_fun(seq(min(cyt_exp[,"CD11b"]),max(cyt_exp[,"CD11b"]),by=0.01)))
 
-# Plot 2D UMAP, and cells are colored by CD3 expression 
+# Plot 2D UMAP, and cells are colored according to CD3 expression 
 plot2D(cyt, item.use = c("UMAP_1", "UMAP_2"), color.by = "CD3",
        alpha = 1, main = "NSCLC:CD3", category = "numeric") +
   scale_colour_gradientn(colors = col_fun(seq(min(cyt_exp[,"CD3"]),max(cyt_exp[,"CD3"]),by=0.01)))
 
-# Plot 2D UMAP, and cells are colored by CD15 expression 
+# Plot 2D UMAP, and cells are colored according to CD15 expression 
 plot2D(cyt, item.use = c("UMAP_1", "UMAP_2"), color.by = "CD15",
        alpha = 1, main = "NSCLC:CD15", category = "numeric") +
   scale_colour_gradientn(colors = col_fun(seq(min(cyt_exp[,"CD15"]),max(cyt_exp[,"CD15"]),by=0.01)))
 
-# Plot 2D UMAP, and cells are colored by HLA-DR expression 
+# Plot 2D UMAP, and cells are colored according to HLA-DR expression 
 plot2D(cyt, item.use = c("UMAP_1", "UMAP_2"), color.by = "HLA-DR",
        alpha = 1, main = "NSCLC:HLA-DR", category = "numeric") +
   scale_colour_gradientn(colors = col_fun(seq(min(cyt_exp[,"HLA-DR"]),max(cyt_exp[,"HLA-DR"]),by=0.01)))
 
-# Plot 2D UMAP, and cells are colored by PD-L1 expression 
+# Plot 2D UMAP, and cells are colored according to PD-L1 expression 
 plot2D(cyt, item.use = c("UMAP_1", "UMAP_2"), color.by = "PDL-1",
        alpha = 1, main = "NSCLC:PDL-1", category = "numeric") +
   scale_colour_gradientn(colors = col_fun(seq(min(cyt_exp[,"PDL-1"]),max(cyt_exp[,"PDL-1"]),by=0.01)))
 
-# Plot 2D UMAP, and cells are colored by CD14 expression 
+# Plot 2D UMAP, and cells are colored according to CD14 expression 
 plot2D(cyt, item.use = c("UMAP_1", "UMAP_2"), color.by = "CD14",
        alpha = 1, main = "NSCLC:CD14", category = "numeric") +
   scale_colour_gradientn(colors = col_fun(seq(min(cyt_exp[,"CD14"]),max(cyt_exp[,"CD14"]),by=0.01)))
 
-# Plot 2D UMAP, and cells are colored by CD11c expression 
+# Plot 2D UMAP, and cells are colored according to CD11c expression 
 plot2D(cyt, item.use = c("UMAP_1", "UMAP_2"), color.by = "CD11c",
        alpha = 1, main = "NSCLC:CD11c", category = "numeric") +
   scale_colour_gradientn(colors = col_fun(seq(min(cyt_exp[,"CD11c"]),max(cyt_exp[,"CD11c"]),by=0.01)))
 
-# Plot 2D UMAP, and cells are colored by CD1a expression 
+# Plot 2D UMAP, and cells are colored according to CD1a expression 
 plot2D(cyt, item.use = c("UMAP_1", "UMAP_2"), color.by = "CD1a",
        alpha = 1, main = "NSCLC:CD1a", category = "numeric") +
   scale_colour_gradientn(colors = col_fun(seq(min(cyt_exp[,"CD1a"]),max(cyt_exp[,"CD1a"]),by=0.01)))
 
-# Plot 2D UMAP, and cells are colored by CD16 expression 
+# Plot 2D UMAP, and cells are colored according to CD16 expression 
 plot2D(cyt, item.use = c("UMAP_1", "UMAP_2"), color.by = "CD16",
        alpha = 1, main = "NSCLC:CD16", category = "numeric") +
   scale_colour_gradientn(colors = col_fun(seq(min(cyt_exp[,"CD16"]),max(cyt_exp[,"CD16"]),by=0.01)))
 
-# Plot 2D UMAP, and cells are colored by CD19/CD20 expression 
+# Plot 2D UMAP, and cells are colored according to CD19/CD20 expression 
 plot2D(cyt, item.use = c("UMAP_1", "UMAP_2"), color.by = "CD19/CD20",
        alpha = 1, main = "NSCLC:CD19/CD20", category = "numeric") +
   scale_colour_gradientn(colors = col_fun(seq(min(cyt_exp[,"CD19/CD20"]),max(cyt_exp[,"CD19/CD20"]),by=0.01)))
@@ -177,7 +167,6 @@ cyt@meta.data$branch.id = paste0("B", cyt_23@meta.data$branch.id)
 # Fetch plot meta information for each cluster
 cluster_cyt = fetchClustMeta(cyt)
 knitr::kable(head(cluster_cyt))
-
 
 ## 6. Visualization ## 
 # Tree plot using branch.id
@@ -248,24 +237,23 @@ plotTree(cyt, color.by = "CD19/CD20", show.node.name = T, cex.size = 1) +
   scale_colour_gradientn(colors = col_fun(seq(min(cluster_cyt[,"CD19/CD20"]),max(cluster_cyt[,"CD19/CD20"]),by=0.01)))
 
 ## 7. Optimization ##
-# Run differential expression analysis for markers in clusters (source code modified to find the differentially expressed markers in clusters.
-# For the modified code refer ""
-# rather than using branch.id)
+# Run differential expression analysis for markers in clusters (source code modified to find the differentially expressed markers in clusters.,rather than using branch.id)
+# For the modified code refer "NSCLC_Project/runDiff_source_code.R"
 diff.cyt = runDiff(cyt)
 
 # Branches are assigned to the immune cells population 
 # Re-naming the branch.id based based on the markers expression
-branch.id[branch.id %in% c("B2","B5")] = "CD3 T cells"
+branch.id[branch.id %in% c("B2","B5")] = "T cells"
 branch.id[branch.id %in% c("B4")] = "Myeloid cells"
 branch.id[branch.id %in% c("B1")] = "B cells"
 branch.id[branch.id %in% c("B3")] = "Undefined"
 
 # From the biological analysis, found some clusters are assigned to the wrong branch/immune population; so after checking clusters
 # were re-assigned to their respective immune cell population 
-branch.id[cyt@meta.data$cluster.id %in% c(17,4,5,2,13,8,10,19)] = "CD3 T cells"
+branch.id[cyt@meta.data$cluster.id %in% c(17,4,5,2,13,8,10,19)] = "T cells"
 branch.id[cyt@meta.data$cluster.id %in% c(9,16,23,6,20,21,25,1,14)] = "B cells"
 branch.id[cyt@meta.data$cluster.id %in% c(18)] = "Neutrophils"
-branch.id[cyt@meta.data$cluster.id %in% c(12,24)] = "Monocytes/Macrophages"
+branch.id[cyt@meta.data$cluster.id %in% c(12,24)] = "Monocytes"
 branch.id[cyt@meta.data$cluster.id %in% c(3,15)] = "DCs"
 branch.id[cyt@meta.data$cluster.id %in% c(11)] = "NKT cells"
 branch.id[cyt@meta.data$cluster.id %in% c(7)] = "NK cells"
