@@ -1,10 +1,9 @@
 ####################################################
 
-# Date : 19/09/2023 #
-# Preprocessing the FCS files before importing them into cytotree ##
-# Some samples have laser names and some antibody names #
+# Preprocessing the FCS files before importing them into Cyotree #
+# Some FCS files have laser names and some antibody names #
 # data transformation: Arcsinh transformation with co-factor 150 #
-# median centering and scaling # 
+# median centring and scaling # 
 
 ####################################################
 
@@ -17,16 +16,16 @@ library(flowCore)
 library(stringr)
 library(scales)
 
-
-## Antibody labels ##
+## An example showing the preprocessing of FCS files with Antibody labels ##
+## FCS files with Antibody labels ##
 # Create an empty list to store the processed flowframes
 fcs_from_file = list()
 # Donors list
-donor_list = c("028(IV)","029(IV)") ## or do i enter all the sasmple number with antibody labels
+donor_list = c("028(IV)","029(IV)") 
 # Get the directory of FCS 
 fcs.files = list.files("~/Suzanne/Cytotree/NSCLC_late_stage_samples/Data/late_stage_nsclc/Ab_labels_raw_late_stage_samples", pattern=".fcs",full.names = TRUE)
 
-# loop to alter the expression matrices columns with the selcted list of markers
+# loop to alter the expression matrices columns with the selected list of markers
 for (i in 1:length(fcs.files)) {
   
   # input the FCS files 
@@ -56,16 +55,16 @@ for (i in 1:length(fcs.files)) {
   # Removing the live/dead and CD45 columns; since the samples were pre-gated for live/dead and CD45
   fcs_from_file[[i]]@exprs = fcs_from_file[[i]]@exprs[,!colnames(fcs_from_file[[i]]@exprs) %in% c("CD45", "Live/Dead")]
   
-  # Arcsinh transformtion with co-factor 150
+  # Arcsinh transformation with co-factor 150
   fcs_from_file[[i]]@exprs = asinh(fcs_from_file[[i]]@exprs/150) 
   
-  # After arsinh transformation, median centering and scaling
+  # After arcsinh transformation, median centring and scaling
   center_scale = function(x) {
     scale(x, center = apply(x,2,median), scale = T)
   }
   fcs_from_file[[i]]@exprs = center_scale(fcs_from_file[[i]]@exprs)
   
-  # Also selecting the only the necessary markers in the parameters list as well
+  # Also selecting only the necessary markers in the parameters list as well
   re_select = c("FSC-A",
                 "SSC-A",
                 "FJComp-APC-A",
@@ -87,16 +86,17 @@ for (i in 1:length(fcs.files)) {
             filename = paste0("~/Suzanne/Cytotree/NSCLC_late_stage_samples/Data/late_stage_nsclc/preprocessed_late_stage_samples_v1/CLEAN_late_Mix 4_Tumor_NSCLC_with_comp_median_",donor_list[i],'.fcs'))
 }
 
+## An example showing the preprocessing of FCS files with Laser labels ##
 ### Laser name labels ###
 # Create an empty list to store the processed flowframes
 fcs_from_file = list()
 # Donors list
-donor_list = c("03","04","06","08","09","010","011","013","014","016","017","019","023","025","026","030","045(IV).2")
+donor_list = c("03","04","06","08","09")
 # Get the directory of FCS 
 fcs.files = list.files("~/Suzanne/Cytotree/NSCLC_late_stage_samples/Data/late_stage_nsclc/laser_labels_raw_late_stage_samples/", pattern=".fcs",full.names = TRUE)
 
 
-#loop to alter the expression matrices columns with thhe selcted list of markers
+#loop to alter the expression matrices columns with the selected list of markers
 for (i in 1:length(fcs.files)) {
   
   # input the FCS files 
@@ -174,16 +174,16 @@ for (i in 1:length(fcs.files)) {
   # Remove the live/dead and CD45 columns
   fcs_from_file[[i]]@exprs = fcs_from_file[[i]]@exprs[,!colnames(fcs_from_file[[i]]@exprs) %in% c("CD45", "Live/Dead")]
 
-  #  Arcsinh transformtion with co-factor 150
+  #  Arcsinh transformation with co-factor 150
   fcs_from_file[[i]]@exprs = asinh(fcs_from_file[[i]]@exprs/150) 
   
-  # Median centering and scaling
+  # Median centring and scaling
   center_scale = function(x) {
     scale(x, center = apply(x,2,median), scale = T)
   }
   fcs_from_file[[i]]@exprs = center_scale(fcs_from_file[[i]]@exprs)
   
-  # Also selecting the only the necessary markers in the parameters list as well
+  # Also selecting only the necessary markers in the parameters list as well
   
   # Re-order the list as per "re-order" list
   fcs_from_file[[i]]@parameters@data[["name"]] =  re_order
@@ -211,7 +211,7 @@ for (i in 1:length(fcs.files)) {
                                                    "FJComp-Qdot 800-A" ,
                                                    "Time" )
 
-  # Also selecting the only the necessary markers in the parameters list as well
+  # Also selecting only the necessary markers in the parameters list as well
   re_select = c("FSC-A",
                 "SSC-A",
                 "FJComp-APC-A",
