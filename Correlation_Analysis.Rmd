@@ -4,7 +4,7 @@ author: "Nandhini"
 date: "10/18/2023"
 output: html_document
 ---
-Showing the correlation analysis of early-stage patients, Similar approach was used for Lung tissue and Late-stage patients
+Showing the correlation analysis of early-stage patients, Same pipeline of correlation analysis was used for Lung tissue and Late-stage patients
 - Correlation between Immune infiltrates and Immune infiltrates in tumour
 - Correlation between Immune infiltrate and T-cell functionality 
 - Correlation between Immune infiltrates and T-cell differentiation subsets 
