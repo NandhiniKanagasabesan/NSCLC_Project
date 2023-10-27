@@ -3,6 +3,9 @@ This repository contains R scripts used in xxxxxxx(paper name) in journal xxxxx 
 
 Content of the R scripts as follows: 
 
+
+<img width="509" alt="image" src="https://github.com/NandhiniKanagasabesan/NSCLC_Project/assets/91875569/fc6b5136-42c4-4a9b-b8d4-eccb7b4bc08a">
+
 # Preprocessing FCS files
 The R script used to perform arcsinh transformation, median-centring and scaling of the FCS files. 
 
