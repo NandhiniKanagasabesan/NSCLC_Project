@@ -1,5 +1,5 @@
-# NSCLC_Project
-This repository contains R scripts used in xxxxxxx(paper name) in journal xxxxx , also add doi of the paper or link to paper
+![image](https://github.com/NandhiniKanagasabesan/NSCLC_Project/assets/91875569/b0a8f519-e25b-43a1-8d29-0053263a532e)# NSCLC_Project
+This repository contains R scripts used in "TLS-related immune infiltrates in NSCLC tumor lesions correlate with low tumor-reactivity of TIL products" in journal xxxxx , also add doi of the paper or link to paper
 
 Content of the R scripts as follows: 
 
