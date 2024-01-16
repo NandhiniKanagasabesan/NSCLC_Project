@@ -3,7 +3,7 @@ This repository contains R scripts used in "TLS-related immune infiltrates in NS
 
 The content of the R scripts as follows: 
 
-![image](https://github.com/NandhiniKanagasabesan/NSCLC_Project/assets/91875569/d210b042-7277-47d4-97a5-d6efbd735c9b)
+![image](https://github.com/NandhiniKanagasabesan/NSCLC_Project/assets/91875569/ae6bcb43-0428-41b8-8b9e-c091fabe74e5)
 
 # Preprocessing FCS files
 The R script used to perform arcsinh transformation, median-centring and scaling of the FCS files. 
