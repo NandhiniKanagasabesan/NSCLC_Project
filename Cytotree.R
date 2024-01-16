@@ -241,15 +241,14 @@ plotTree(cyt, color.by = "CD19/CD20", show.node.name = T, cex.size = 1) +
 # For the modified code refer "NSCLC_Project/runDiff_source_code.R"
 diff.cyt = runDiff(cyt)
 
-# Branches are assigned to the immune cells population 
-# Re-naming the branch.id based based on the markers expression
+# Branches are assigned to different immune cell populations 
+# Re-name the branch.id based on the markers expression
 branch.id[branch.id %in% c("B2","B5")] = "T cells"
 branch.id[branch.id %in% c("B4")] = "Myeloid cells"
 branch.id[branch.id %in% c("B1")] = "B cells"
 branch.id[branch.id %in% c("B3")] = "Undefined"
 
-# From the biological analysis, found some clusters are assigned to the wrong branch/immune population; so after checking clusters
-# were re-assigned to their respective immune cell population 
+# From the biological analysis, some clusters are assigned to the wrong branch/immune population, so after checking, clusters were re-assigned to their respective immune cell population 
 branch.id[cyt@meta.data$cluster.id %in% c(17,4,5,2,13,8,10,19)] = "T cells"
 branch.id[cyt@meta.data$cluster.id %in% c(9,16,23,6,20,21,25,1,14)] = "B cells"
 branch.id[cyt@meta.data$cluster.id %in% c(18)] = "Neutrophils"
@@ -267,8 +266,5 @@ plotTree(cyt, color.by = "branch.id", show.node.name = TRUE, cex.size = 1)
 
 # Plot 2D UMAP plot for branches
 plot2D(cyt, item.use = c("UMAP_1", "UMAP_2"), color.by = "branch.id",
-       alpha = 1,main = "NSCLC sample 23", category = "categorical", show.cluser.id = F,
-       plot.theme = theme_classic(),show.cluser.id.size = 3)
-
-
-
+       alpha = 1,main = "NSCLC sample 23", category = "categorical", show.cluster.id = F,
+       plot.theme = theme_classic(),show.cluster.id.size = 3)
