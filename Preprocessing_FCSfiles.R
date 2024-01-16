@@ -52,7 +52,7 @@ for (i in 1:length(fcs.files)) {
   colnames(fcs_from_file[[i]]@exprs)[match(names(recol), colnames(fcs_from_file[[i]]@exprs))] = recol
   fcs_from_file[[i]]@exprs = fcs_from_file[[i]]@exprs[, recol]
   
-  # Removing the live/dead and CD45 columns; since the samples were pre-gated for live/dead and CD45
+  # Remove the live/dead and CD45 columns; since the samples were pre-gated for live/dead and CD45
   fcs_from_file[[i]]@exprs = fcs_from_file[[i]]@exprs[,!colnames(fcs_from_file[[i]]@exprs) %in% c("CD45", "Live/Dead")]
   
   # Arcsinh transformation with co-factor 150
@@ -211,7 +211,7 @@ for (i in 1:length(fcs.files)) {
                                                    "FJComp-Qdot 800-A" ,
                                                    "Time" )
 
-  # Also selecting only the necessary markers in the parameters list as well
+  # Also select only the necessary markers in the parameters list as well
   re_select = c("FSC-A",
                 "SSC-A",
                 "FJComp-APC-A",
