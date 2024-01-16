@@ -1,6 +1,7 @@
 # NSCLC_Project
 This repository contains R scripts used in "TLS-related immune infiltrates in NSCLC tumor lesions correlate with low tumor-reactivity of TIL products" in journal xxxxx , also add doi of the paper or link to paper. 
 
+**An overview of the workflow used in this study**. 
 ![image](https://github.com/NandhiniKanagasabesan/NSCLC_Project/assets/91875569/ae6bcb43-0428-41b8-8b9e-c091fabe74e5)
 
 The content of the R scripts as follows: 
