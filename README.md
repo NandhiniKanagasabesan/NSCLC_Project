@@ -6,14 +6,14 @@ This repository contains R scripts used in "TLS-related immune infiltrates in NS
 
 The content of the R scripts as follows: 
 
-# Preprocessing FCS files
+# 1) Preprocessing FCS files
 The R script used to perform arcsinh transformation, median-centring and scaling of the FCS files. 
 
-# CytoTree Analysis
+# 2) CytoTree Analysis
 The R script used to perform an unbiased clustering analysis of the flow cytometric data. It provides details of all the steps of the analyses and visualization code used to produce the figures shown in the manuscript. Corresponds to Figure 1 and Supplementary Figure 1. 
 
-# Altering of runDiff source code 
+# 3) Altering of runDiff source code 
 The R script used to alter the function runDiff source code in the Cytotree R package to use cluster IDs instead of branch IDs to run differentially expressed markers.   
 
-# Correlation Analysis 
+# 4) Correlation Analysis 
 The R script used to perform Spearman correlation analysis between the percentage of immune infiltrates with immune infiltrates itself, with the expansion rate (fold change) of T cells during preREP (first 1-13 days), REP (second 1-13 days) and total (preREP + REP), and with the anti-tumoral response of expanded TILs products. Corresponds to Figure 2, 3, and 4. 
