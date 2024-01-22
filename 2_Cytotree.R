@@ -271,22 +271,20 @@ plot2D(cyt, item.use = c("UMAP_1", "UMAP_2"), color.by = "branch.id",
 
 
 ## 8. Percentage calculation ##
-# List of immune cell subsets 
-immune_pop_list = c("T cells","B cells","Neutrophils","Monocytes","DCs","NKT cells","NK cells","Undefined")
-immune_pop = c()
-# Create an empty dataframe
+# Create an empty data frame
 immune_percentage = data.frame("Immune_cell_pop" = character(),"Percentages" = numeric())
-# Extract clusters information
+# Extract cluster information
 cluster_count = fetchClustMeta(cyt)
-# List of clusters for each immune cell subset
+# Split data for each immune cell subset
 immune_pop = split(cluster_count, cluster_count$branch.id)
 
+# Calculate the percentage of immune cell subsets 
 for(i in 1:length(immune_pop)){
   
   immune_percentage[i,1] = names(immune_pop[i])
   immune_percentage[i,2] = percent(sum(immune_pop[[i]]$cell.number)/sum(cluster_count$cell.number),accuracy = 0.01)
   
 }
-# save the 
-write.csv(immune_percentage, "~/Suzanne/Cytotree/NSCLC_immune_percentage.csv")
+# save the immune cell population percentages
+write.csv(immune_percentage, "~/xxxx/NSCLC_immune_percentage.csv")
 
