@@ -8,7 +8,7 @@
 ####################################################
 
 # Set a working directory
-setwd("~/Suzanne/Cytotree/NSCLC_samples/")
+setwd("xxxx/xxxx/xxxx")
 
 # Loading packages
 library(CytoTree)
@@ -22,8 +22,8 @@ library(scales)
 fcs_from_file = list()
 # Donors list
 donor_list = c("028(IV)","029(IV)") 
-# Get the directory of FCS 
-fcs.files = list.files("~/Suzanne/Cytotree/NSCLC_late_stage_samples/Data/late_stage_nsclc/Ab_labels_raw_late_stage_samples", pattern=".fcs",full.names = TRUE)
+# Get the directory of FCS files
+fcs.files = list.files("~/xxxx/Ab_labels_raw_late_stage_samples", pattern=".fcs",full.names = TRUE)
 
 # loop to alter the expression matrices columns with the selected list of markers
 for (i in 1:length(fcs.files)) {
@@ -48,6 +48,7 @@ for (i in 1:length(fcs.files)) {
             `FJComp-Qdot 625-A` = "CD16",
             `FJComp-Qdot 705-A` = "CD19/CD20",
             `FJComp-Qdot 800-A` = "CD45")
+  
   # Rename the columns with the desired marker labels
   colnames(fcs_from_file[[i]]@exprs)[match(names(recol), colnames(fcs_from_file[[i]]@exprs))] = recol
   fcs_from_file[[i]]@exprs = fcs_from_file[[i]]@exprs[, recol]
@@ -83,7 +84,7 @@ for (i in 1:length(fcs.files)) {
   
   # Save the new pre-processed FCS files 
   write.FCS(fcs_from_file[[i]],
-            filename = paste0("~/Suzanne/Cytotree/NSCLC_late_stage_samples/Data/late_stage_nsclc/preprocessed_late_stage_samples_v1/CLEAN_late_Mix 4_Tumor_NSCLC_with_comp_median_",donor_list[i],'.fcs'))
+            filename = paste0("~/xxxx/CLEAN_Mix 4_Tumor_NSCLC_with_comp_median_",donor_list[i],'.fcs'))
 }
 
 ## An example showing the preprocessing of FCS files with Laser labels ##
@@ -93,10 +94,10 @@ fcs_from_file = list()
 # Donors list
 donor_list = c("03","04","06","08","09")
 # Get the directory of FCS 
-fcs.files = list.files("~/Suzanne/Cytotree/NSCLC_late_stage_samples/Data/late_stage_nsclc/laser_labels_raw_late_stage_samples/", pattern=".fcs",full.names = TRUE)
+fcs.files = list.files("~/xxxx/laser_labels_raw_late_stage_samples/", pattern=".fcs",full.names = TRUE)
 
 
-#loop to alter the expression matrices columns with the selected list of markers
+# Alter the expression matrices columns with the selected list of markers
 for (i in 1:length(fcs.files)) {
   
   # input the FCS files 
@@ -230,6 +231,6 @@ for (i in 1:length(fcs.files)) {
   
   # Save the new pre-processed FCS files 
   write.FCS(fcs_from_file[[i]],
-            filename = paste0("~/Suzanne/Cytotree/NSCLC_late_stage_samples/Data/late_stage_nsclc/Corrected_samples/CLEAN_late_Mix 4_Tumor_NSCLC_with_comp_median_",donor_list[i],'.fcs'))
+            filename = paste0("~/xxxx/CLEAN_Mix 4_Tumor_NSCLC_with_comp_median_",donor_list[i],'.fcs'))
 }
 
