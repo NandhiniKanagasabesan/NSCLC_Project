@@ -13,11 +13,11 @@ library(stringr)
 library(colorRamps)
 
 # Set a working directory
-setwd("~/Suzanne/Cytotree/NSCLC_samples/")
+setwd("~/xxxx/xxxx/xxxx/")
 
 ## 1. Import of FCS files ## 
 # get the path of the file
-fcs.path = "~/Suzanne/Cytotree/NSCLC_samples/data/early_cohort/Preprocessed_FCSfiles/"
+fcs.path = "~/xxxx/Preprocessed_FCSfiles/"
 # get the FCS file
 fcs_file = paste0(fcs.path, "CLEAN_Mix 4_Tumor_NSCLC_with_comp_median_023.fcs")
 
