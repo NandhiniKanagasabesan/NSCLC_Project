@@ -84,7 +84,7 @@ for (i in 1:length(fcs.files)) {
   
   # Save the new pre-processed FCS files 
   write.FCS(fcs_from_file[[i]],
-            filename = paste0("~/xxxx/CLEAN_Mix 4_Tumor_NSCLC_with_comp_median_",donor_list[i],'.fcs'))
+            filename = paste0("~/xxxx/Preprocessed_FCSfiles/CLEAN_Mix 4_Tumor_NSCLC_with_comp_median_",donor_list[i],'.fcs'))
 }
 
 ## An example showing the preprocessing of FCS files with Laser labels ##
@@ -231,6 +231,6 @@ for (i in 1:length(fcs.files)) {
   
   # Save the new pre-processed FCS files 
   write.FCS(fcs_from_file[[i]],
-            filename = paste0("~/xxxx/CLEAN_Mix 4_Tumor_NSCLC_with_comp_median_",donor_list[i],'.fcs'))
+            filename = paste0("~/xxxx/Preprocessed_FCSfiles/CLEAN_Mix 4_Tumor_NSCLC_with_comp_median_",donor_list[i],'.fcs'))
 }
 
