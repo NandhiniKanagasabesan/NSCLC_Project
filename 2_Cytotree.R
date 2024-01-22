@@ -23,10 +23,10 @@ fcs_file = paste0(fcs.path, "CLEAN_Mix 4_Tumor_NSCLC_with_comp_median_023.fcs")
 
 # Extract the expression matrix from the FCS file
 fcs = runExprsExtract(fcs_file, comp = FALSE, transformMethod = "none")
-#refine the rownames for easaier use
+#refine the row names for easier use
 rownames(fcs) = gsub("CLEAN_Mix 4_Tumor_NSCLC_with_comp_median_", "", rownames(fcs), fixed=TRUE)
 
-# Refine colnames of fcs data
+# Refine column names of fcs data
 # Note: delete or omit the columns that will not be used 
 recol = c(`FSC-A<NA>` = "FSC-A",
           `SSC-A<NA>` = "SSC-A",
@@ -48,13 +48,13 @@ fcs = fcs[, recol]
 ## 2. Create metadata ## 
 # Patient_id 
 donor_list = "023"
-# creating a metadata table with cells, markers, and patient ID
+# Creating a metadata table with cells, markers, and patient ID
 meta.data = data.frame(cell = rownames(fcs), #cells
                        stage = substr(rownames(fcs),1,3)) #patient ID
 meta.data$stage = factor(as.character(meta.data$stage), levels = donor_list) 
 markers = colnames(fcs) #markers used 
 
-## 3. Clustering and Dimensionlaity reduction ##
+## 3. Clustering and Dimensionality reduction ##
 # Build CYT object 
 cyt = createCYT(raw.data = fcs,
                    markers = markers,
@@ -268,3 +268,25 @@ plotTree(cyt, color.by = "branch.id", show.node.name = TRUE, cex.size = 1)
 plot2D(cyt, item.use = c("UMAP_1", "UMAP_2"), color.by = "branch.id",
        alpha = 1,main = "NSCLC sample 23", category = "categorical", show.cluster.id = F,
        plot.theme = theme_classic(),show.cluster.id.size = 3)
+
+
+## 8. Percentage calculation ##
+# List of immune cell subsets 
+immune_pop_list = c("T cells","B cells","Neutrophils","Monocytes","DCs","NKT cells","NK cells","Undefined")
+immune_pop = c()
+# Create an empty dataframe
+immune_percentage = data.frame("Immune_cell_pop" = character(),"Percentages" = numeric())
+# Extract clusters information
+cluster_count = fetchClustMeta(cyt)
+# List of clusters for each immune cell subset
+immune_pop = split(cluster_count, cluster_count$branch.id)
+
+for(i in 1:length(immune_pop)){
+  
+  immune_percentage[i,1] = names(immune_pop[i])
+  immune_percentage[i,2] = percent(sum(immune_pop[[i]]$cell.number)/sum(cluster_count$cell.number),accuracy = 0.01)
+  
+}
+# save the 
+write.csv(immune_percentage, "~/Suzanne/Cytotree/NSCLC_immune_percentage.csv")
+
