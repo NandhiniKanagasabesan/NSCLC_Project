@@ -1,11 +1,10 @@
 ---
 title: "Spearman's Correlation Analysis"
 author: "Nandhini"
-date: "10/18/2023"
 output: html_document
 ---
-Showing the correlation analysis of early-stage patients, Same pipeline of correlation analysis was used for Lung tissue and Late-stage patients
-- Correlation between Immune infiltrates and Immune infiltrates in tumour
+Showing the correlation analysis of early-stage patients, the same was used for Lung tissue and Late-stage patients
+- Correlation between Immune infiltrates and Immune infiltrates in tumours and Lung tissue
 - Correlation between Immune infiltrate and T-cell functionality 
 - Correlation between Immune infiltrates and T-cell differentiation subsets 
 
