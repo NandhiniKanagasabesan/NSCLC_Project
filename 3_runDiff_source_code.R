@@ -1,6 +1,7 @@
 
-# The source code for runDiff used to perform diffferential expression analysis is altered. The runDiff in Cytotree was used to
-# perform differential expression of markers in branches, but I changed to find the differential expression of markers in clusters
+# The source code for runDiff used to perform diffferential expression analysis was altered. The "runDiff" in Cytotree was used to
+# perform the differential expression of markers in branches, but it is changed to find the differential expression of markers in clusters
+
 #### rundiff with clusters ####
 runDiff <- function(object, cluster.id = NULL, cluster.id.2 = NULL, verbose = FALSE) {
 
