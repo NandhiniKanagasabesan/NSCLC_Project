@@ -1,8 +1,7 @@
 ####################################################
-# Showing an example of analysing a single FCS file, a similar approach was used for all sample
+# Showing an example of analysing a single FCS file, same approach was used for all samples
 # CytoTree analysis for sample 23 #
 # No. Of cell counts: 50699 #
-
 ####################################################
 
 ## Loading packages ## 
@@ -46,7 +45,7 @@ colnames(fcs)[match(names(recol), colnames(fcs))] = recol
 fcs = fcs[, recol]
 
 ## 2. Create metadata ## 
-# Patient_id 
+# Patient_id; in this case its sample number 23 
 donor_list = "023"
 # Creating a metadata table with cells, markers, and patient ID
 meta.data = data.frame(cell = rownames(fcs), #cells
@@ -74,7 +73,7 @@ cyt = processingCluster(cyt)
 # Run Principal Component Analysis (PCA)
 cyt = runFastPCA(cyt)
 
-# Run Uniform Manifold Approximation and Projection (UMAP)
+# Run Uniform Manifold Approximation and Projection(UMAP)
 set.seed(12345)
 cyt = runUMAP(cyt)
 
@@ -83,7 +82,7 @@ cyt = runUMAP(cyt)
 # Visulaize the distribution of cells based on their marker expression in a 2D UMAP plot
 
 # Plot 2D UMAP, and cells are colored by cluster ID
-plot2D(cyt_23, item.use = c("UMAP_1", "UMAP_2"), color.by = "cluster.id",show.cluser.id = TRUE,
+plot2D(cyt_23, item.use = c("UMAP_1", "UMAP_2"), color.by = "cluster.id",show.cluster.id = TRUE,
        alpha = 0.5, main = "NSCLC:Clusters", category = "categorical", plot.theme = theme_classic()) + theme(aspect.ratio = 1)
 
 # Plot 2D UMAP, and cells are colored by patient donor
@@ -237,8 +236,8 @@ plotTree(cyt, color.by = "CD19/CD20", show.node.name = T, cex.size = 1) +
   scale_colour_gradientn(colors = col_fun(seq(min(cluster_cyt[,"CD19/CD20"]),max(cluster_cyt[,"CD19/CD20"]),by=0.01)))
 
 ## 7. Optimization ##
-# Run differential expression analysis for markers in clusters (source code modified to find the differentially expressed markers in clusters.,rather than using branch.id)
-# For the modified code refer "NSCLC_Project/runDiff_source_code.R"
+# Run differential expression analysis for markers in clusters (source code modified to find the differentially expressed markers in clusters, rather than using branch.id)
+# For the modified code refer "xxxx/NSCLC_Project/3_runDiff_source_code.R"
 diff.cyt = runDiff(cyt)
 
 # Branches are assigned to different immune cell populations 
